@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T20:13:25.652722+00:00",
+  "title": "Design System: Price Tracker",
+  "extensions": {
+    "colorMeta": {
+      "pine": {
+        "role": "primary",
+        "displayName": "Deep pine"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm paper"
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Pale sage"
+      },
+      "green": {
+        "role": "secondary",
+        "displayName": "Price drop green"
+      },
+      "rust": {
+        "role": "secondary",
+        "displayName": "Price increase rust"
+      },
+      "amber": {
+        "role": "secondary",
+        "displayName": "Attention amber"
+      }
+    },
+    "typographyMeta": {
+      "price": {
+        "displayName": "Price",
+        "purpose": "Tabular numerals; 22px at the mobile breakpoint."
+      },
+      "chart": {
+        "displayName": "SVG chart labels",
+        "purpose": "Explicit Manrope stack; 24px SVG coordinates at 700px and below to offset viewBox scaling."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "price-arrived",
+        "value": "1.5s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Fade updated row from #dceaaa to paper; disabled with reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "700px"
+      },
+      {
+        "name": "compact-max",
+        "value": "1050px"
+      },
+      {
+        "name": "wide-min",
+        "value": "1500px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main add-product action.",
+      "html": "<button class=\"ds-primary\">Track product <span aria-hidden=\"true\">+</span></button>",
+      "css": ".ds-primary{font-family:var(--font,Manrope,'Segoe UI',sans-serif);background:var(--pine,#163d32);color:#fff;border:1px solid transparent;border-radius:7px;min-height:44px;padding:11px 18px;font-size:13px;font-weight:650;display:inline-flex;align-items:center;gap:10px;cursor:pointer}.ds-primary span{font-size:21px;font-weight:400}.ds-primary:hover{background:#24513f}.ds-primary:disabled{opacity:.55;cursor:wait}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-filter:focus-visible{outline:3px solid #6b8751;outline-offset:4px}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Manual checks and save actions.",
+      "html": "<button class=\"ds-secondary\">Check all prices</button>",
+      "css": ".ds-secondary{font-family:var(--font,Manrope,'Segoe UI',sans-serif);background:transparent;color:var(--pine,#163d32);border:1px solid #b8c6b4;border-radius:7px;min-height:44px;padding:11px 18px;font-size:13px;font-weight:650;cursor:pointer}.ds-secondary:hover{background:#e3eadc}.ds-secondary:disabled{opacity:.55;cursor:wait}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-filter:focus-visible{outline:3px solid #6b8751;outline-offset:4px}"
+    },
+    {
+      "name": "Product link field",
+      "kind": "input",
+      "refersTo": "input-url",
+      "description": "Main product URL entry.",
+      "html": "<label class=\"ds-url\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0\"/></svg><input type=\"url\" aria-label=\"Product link\" placeholder=\"Paste a product link, starting with https://\"></label>",
+      "css": ".ds-url{display:flex;gap:12px;align-items:center;background:var(--paper,#fffefa);border:1px solid #b6c4aa;border-radius:7px;padding:0 14px;color:var(--muted,#59685f)}.ds-url svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.ds-url input{font-family:var(--font,Manrope,'Segoe UI',sans-serif);border:0;background:transparent;width:100%;min-width:0;padding:13px 0;color:var(--ink,#203a31);font-size:14px;outline:none}.ds-url input::placeholder{color:#59685f;opacity:1}.ds-url:focus-within{outline:2px solid #6b8751;outline-offset:2px}"
+    },
+    {
+      "name": "Selected filter",
+      "kind": "chip",
+      "refersTo": "filter-active",
+      "description": "A pressed watchlist filter.",
+      "html": "<button class=\"ds-filter\" aria-pressed=\"true\">All products</button>",
+      "css": ".ds-filter{font-family:var(--font,Manrope,'Segoe UI',sans-serif);border:0;background:var(--pine,#163d32);color:#fff;border-radius:6px;padding:8px 11px;font-size:12px;font-weight:600;min-height:36px;cursor:pointer}.ds-filter:hover{background:var(--pine,#163d32)}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-filter:focus-visible{outline:3px solid #6b8751;outline-offset:4px}"
+    },
+    {
+      "name": "Price drop status",
+      "kind": "chip",
+      "refersTo": "status-dropped",
+      "description": "Written direction with a reinforcing icon.",
+      "html": "<span class=\"ds-status\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v16m-6-6 6 6 6-6\"/></svg>Dropped</span>",
+      "css": ".ds-status{font-family:var(--font,Manrope,'Segoe UI',sans-serif);display:inline-flex;align-items:center;gap:5px;border-radius:5px;padding:4px 7px;font-size:12px;font-weight:600;background:var(--green-bg,#e7f1e5);color:var(--green,#23623e);white-space:nowrap}.ds-status svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}"
+    },
+    {
+      "name": "Add panel",
+      "kind": "card",
+      "refersTo": "add-panel",
+      "description": "Sage container for the primary task.",
+      "html": "<section class=\"ds-panel\"><h2>Keep an eye on something</h2><p>Paste a product link to start tracking its price.</p></section>",
+      "css": ".ds-panel{font-family:var(--font,Manrope,'Segoe UI',sans-serif);background:#e4ebdb;color:var(--ink,#203a31);border-radius:var(--radius,12px);padding:26px 28px 22px}.ds-panel h2{font-size:16px;letter-spacing:-.015em;font-weight:650;margin:0 0 14px}.ds-panel p{font-size:12px;color:#54634d;margin:12px 0 0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Botanical field-guide restraint",
+    "overview": "A calm local work surface for checking prices. Deep pine, pale sage and warm paper support a compact watchlist whose product names, verified prices and comparison times carry the hierarchy. Trust remains visible through explicit unknown values, written direction and preserved successful observations.",
+    "keyCharacteristics": [
+      "Aligned compact rows with inline history",
+      "Self-hosted Manrope and tabular prices",
+      "Flat tonal surfaces and fine rules",
+      "Directional color backed by labels and icons"
+    ],
+    "rules": [
+      {
+        "name": "Written direction",
+        "body": "Pair status color with a written status and reinforcing icon when available.",
+        "section": "colors"
+      },
+      {
+        "name": "One text family",
+        "body": "Use the self-hosted Manrope stack in HTML and SVG chart text.",
+        "section": "typography"
+      },
+      {
+        "name": "Flat list",
+        "body": "Use tones and horizontal rules instead of shadows for row separation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve aligned prices and explicit comparison context.",
+      "Do preserve keyboard focus and table access to history.",
+      "Do distinguish pending values, failures and the last verified observation."
+    ],
+    "donts": [
+      "Don't fabricate unknown prices.",
+      "Don't replace the compact operating list with decorative metric tiles.",
+      "Don't add competing elevation or motion."
+    ]
+  }
+}

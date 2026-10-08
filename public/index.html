@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#163d32">
+  <title>Price Tracker · Watchlist</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23163d32'/%3E%3Cpath d='M10 13h9v8h10M23 15l6 6-6 6' fill='none' stroke='%23e3eeab' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to watchlist</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Price Tracker home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h10v10h12m-6-6 6 6-6 6"/></svg>Price Tracker<span class="local-label">LOCAL</span></a>
+      <span class="schedule"><span class="dot"></span>Checks every hour<span class="desktop-only"> · while running</span></span>
+    </div>
+  </header>
+  <main id="main">
+    <div class="page-heading"><div><h1>Your watchlist</h1><p>A little patience. A better price.</p></div><button id="check-all" class="button secondary" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6.1 7a7 7 0 0 1 11.6-1L20 9M4 15l2.3 3A7 7 0 0 0 17.9 17"/></svg><span>Check all prices</span></button></div>
+    <section class="add-section" aria-labelledby="add-title">
+      <h2 id="add-title">Keep an eye on something</h2>
+      <form id="add-form">
+        <label class="sr-only" for="product-url">Product link</label>
+        <div class="url-field"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></svg><input id="product-url" type="url" required maxlength="2000" placeholder="Paste a product link, starting with https://" autocomplete="off" aria-describedby="store-help"></div>
+        <button class="button primary" id="add-button" type="submit">Track product <span aria-hidden="true">+</span></button>
+      </form>
+      <p class="help" id="store-help">Micro Center and other stores with readable product prices. Some stores block automated checks.</p>
+      <p id="form-error" class="error-text" role="alert" hidden></p>
+    </section>
+    <div id="notice" role="status" class="notice" hidden></div>
+    <section class="watchlist" aria-label="Tracked products">
+      <div class="list-heading"><h2>Tracked products <span id="product-count">0</span></h2><span id="email-status" class="muted"></span></div>
+      <div class="list-toolbar"><div class="filters" aria-label="Filter products" id="filters"><button class="filter active" data-filter="all" aria-pressed="true">All products</button><button class="filter" data-filter="dropped" aria-pressed="false">Dropped</button><button class="filter" data-filter="unchanged" aria-pressed="false">Unchanged</button><button class="filter" data-filter="increased" aria-pressed="false">Increased</button><button class="filter" data-filter="attention" aria-pressed="false">Needs attention</button></div><label class="search-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><span class="sr-only">Search products</span><input id="search" type="search" placeholder="Find a product"></label></div>
+      <p class="comparison-note">Changes compare the last two successful checks.</p>
+      <div id="products" aria-busy="true"><div class="empty"><h3>Loading your watchlist…</h3><p>Your saved products will appear here.</p></div></div>
+    </section>
+    <footer><span>Prices worth watching. Time back for you.</span><span>Stored on this device · <span id="sync-status">Connecting…</span></span></footer>
+  </main>
+</body>
+</html>

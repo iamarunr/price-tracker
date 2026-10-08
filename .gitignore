@@ -1,0 +1,9 @@
+node_modules/
+.chrome-profile/
+.DS_Store
+config.json
+alert-state.json
+verified-alert-state.json
+tracker-state.json
+*.tmp
+.impeccable/review/

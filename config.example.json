@@ -1,0 +1,6 @@
+{
+  "resendApiKey": "re_your_api_key_here",
+  "fromEmail": "Price Tracker <alerts@your-domain.com>",
+  "toEmail": "your-email@example.com",
+  "products": []
+}
