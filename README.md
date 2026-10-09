@@ -2,6 +2,10 @@
 
 A local dashboard for watching product prices. Paste a product link, save its first verified price, and see whether the next price is **unchanged**, **dropped**, or **increased**.
 
+## Host on Cloudflare
+
+Follow [the Cloudflare setup guide](CLOUDFLARE.md) for the Worker, D1 database, browser checks, and private sign-in. Static Pages hosting alone cannot run the backend.
+
 ## Run the dashboard
 
 Requires Node.js 22.12+ (or a newer supported Node release) and Chrome, or Puppeteer's bundled browser.

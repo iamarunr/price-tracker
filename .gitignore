@@ -7,3 +7,9 @@ verified-alert-state.json
 tracker-state.json
 *.tmp
 .impeccable/review/
+.wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+.cloudflare-build/

@@ -10,19 +10,36 @@
     "check-price:headed": "node price-tracker.js --check-price --headed",
     "dev": "node server.js",
     "track": "node price-tracker.js",
-    "dry-run": "node price-tracker.js --dry-run"
+    "dry-run": "node price-tracker.js --dry-run",
+    "cf:login": "wrangler login",
+    "cf:whoami": "wrangler whoami",
+    "cf:dev": "wrangler dev",
+    "cf:build": "wrangler deploy --dry-run --outdir .cloudflare-build",
+    "cf:db:create": "wrangler d1 create price-tracker",
+    "cf:db:migrate": "wrangler d1 migrations apply DB --remote",
+    "cf:db:local": "wrangler d1 migrations apply DB --local",
+    "cf:queue:create": "wrangler queues create price-tracker-checks",
+    "cf:deploy": "wrangler deploy",
+    "cf:logs": "wrangler tail"
   },
   "dependencies": {
+    "@cloudflare/puppeteer": "^1.4.0",
     "cheerio": "^1.0.0",
+    "jose": "^6.2.12",
     "puppeteer": "^25.1.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "resend": "^4.0.0"
   },
   "allowScripts": {
-    "puppeteer@25.1.0": true
+    "puppeteer@25.1.0": true,
+    "esbuild@0.28.2": true,
+    "workerd@1.20261006.1": true
   },
   "engines": {
     "node": ">=22.12"
+  },
+  "devDependencies": {
+    "wrangler": "^4.149.0"
   }
 }

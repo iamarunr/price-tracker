@@ -19,7 +19,7 @@ function notice(message, bad = false) { $('#notice').textContent = message; $('#
 async function api(path, method = 'GET', body) {
   const response = await fetch(path, {method,headers:method === 'GET' ? {} : {'Content-Type':'application/json'},body: method === 'GET' ? undefined : JSON.stringify(body || {})});
   const value = await response.json();
-  if (!response.ok) throw new Error(value.error || 'Something went wrong. Try again.');
+  if (!response.ok) throw Object.assign(new Error(value.error || 'Something went wrong. Try again.'), {status:response.status});
   return value;
 }
 function historyChart(product) {
@@ -47,7 +47,7 @@ function detail(product) {
     ${historyChart(product)}
     ${product.history.length ? `<details><summary class="text-button">See recorded prices (${product.history.length})</summary><div class="history-log"><table class="history-table"><thead><tr><th scope="col">Checked at</th><th scope="col">Price</th></tr></thead><tbody>${[...product.history].reverse().map(h=>`<tr><td>${esc(date(h.at))}</td><td>${esc(formatPrice(h.price,h.currency))}</td></tr>`).join('')}</tbody></table></div></details>` : ''}
     <p class="subtext">${product.history.length ? `Verified from ${esc(product.history.at(-1).source)}. Up to 2,000 recent checks are kept.` : 'No verified price yet.'}</p></div>
-    <div class="detail-settings"><form class="target-form" data-id="${esc(id)}"><label class="target-label" for="target-${esc(id)}">Email alert below${product.currency ? ` (${esc(product.currency)})` : ''}</label><input class="target-input" id="target-${esc(id)}" type="number" min="0.01" step="0.01" max="100000000" placeholder="Optional target price" value="${esc(targetDrafts.has(id) ? targetDrafts.get(id) : product.priceThreshold ?? '')}"><button class="button secondary" type="submit">Save target</button></form><p class="help">${data.emailEnabled ? 'Email is sent below your target, then only for further drops.' : 'Optional. To send emails, configure Resend in config.json. Tracking works without it.'}</p>
+    <div class="detail-settings"><form class="target-form" data-id="${esc(id)}"><label class="target-label" for="target-${esc(id)}">Email alert below${product.currency ? ` (${esc(product.currency)})` : ''}</label><input class="target-input" id="target-${esc(id)}" type="number" min="0.01" step="0.01" max="100000000" placeholder="Optional target price" value="${esc(targetDrafts.has(id) ? targetDrafts.get(id) : product.priceThreshold ?? '')}"><button class="button secondary" type="submit">Save target</button></form><p class="help">${data.emailEnabled ? 'Email is sent below your target, then only for further drops.' : (data.runtime === 'cloudflare' ? 'Optional. Enable email alerts in your Worker settings. Tracking works without email.' : 'Optional. To send emails, configure Resend in config.json. Tracking works without it.')}</p>
     ${product.alertError ? `<p class="error-text">Email failed: ${esc(product.alertError)}. It will retry on the next check.</p>` : ''}
     <div class="detail-actions"><button class="text-button" data-action="check" data-id="${esc(id)}" ${product.checking?'disabled':''}>${product.checking?'Checking…':'Check now'}</button>${removing === id ? `<button class="text-button danger" data-action="confirm-remove" data-id="${esc(id)}">Confirm removal</button><button class="text-button" data-action="cancel-remove" data-id="${esc(id)}">Cancel</button>` : `<button class="text-button danger" data-action="remove" data-id="${esc(id)}">Remove</button>`}</div></div></div></div>`;
 }
@@ -56,6 +56,10 @@ function render() {
   const focusId = active?.id;
   const action = active?.dataset.action, actionId = active?.dataset.id;
   $('#product-count').textContent = data.products.length;
+  const hosted = data.runtime === 'cloudflare';
+  $('.local-label').textContent = hosted ? 'CLOUD' : 'LOCAL';
+  $('.schedule').innerHTML = hosted ? '<span class="dot"></span>Hourly cloud checks' : '<span class="dot"></span>Checks every hour<span class="desktop-only"> · while running</span>';
+  $('#storage-label').textContent = hosted ? 'Saved in your private cloud database' : 'Stored on this device';
   $('#email-status').textContent = data.emailEnabled ? 'Email alerts enabled' : 'Email alerts not configured';
   const running = data.products.some(p=>p.checking);
   $('#check-all').disabled = !data.products.length || running;
@@ -103,9 +107,9 @@ async function refresh(force = false) {
   } catch (err) {
     $('#sync-status').textContent = 'Disconnected';
     disconnected = true;
-    notice('Cannot reach the tracker. Keep the server running, then retry. Your saved prices are unchanged.',true);
+    notice(err.status ? err.message : 'Cannot reach the tracker. Check your connection, then retry. Your saved prices are unchanged.',true);
     $('#products').setAttribute('aria-busy','false');
-    if (!signature) $('#products').innerHTML = '<div class="empty"><h3>Couldn’t load your watchlist</h3><p>Start the server with npm start, then retry.</p><button class="button secondary" data-action="retry">Retry connection</button></div>';
+    if (!signature) $('#products').innerHTML = '<div class="empty"><h3>Couldn’t load your watchlist</h3><p>Check your connection or sign-in session, then retry.</p><button class="button secondary" data-action="retry">Retry connection</button></div>';
   } finally { fetching = false; }
 }
 $('#add-form').addEventListener('submit',async event=>{
